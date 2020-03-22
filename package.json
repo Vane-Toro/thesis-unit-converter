@@ -10,16 +10,23 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.helloWorld"
+		"onCommand:extension.thesisUnitConverter"
 	],
 	"main": "./extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.helloWorld",
+				"command": "extension.thesisUnitConverter",
 				"title": "thesis converter"
-			}
-		]
+      }
+    ],
+      "keybindings": [
+        {
+            "command": "extension.thesisUnitConverter",
+            "key": "Alt+z"
+        }
+    ]
+		
 	},
 	"scripts": {
 		"lint": "eslint .",

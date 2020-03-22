@@ -17,13 +17,13 @@ function activate(context) {
   // The command has been defined in the package.json file
   // Now provide the implementation of the command with  registerCommand
   // The commandId parameter must match the command field in package.json
-  let disposable = vscode.commands.registerCommand('extension.helloWorld', function () {
+  let disposable = vscode.commands.registerCommand('extension.thesisUnitConverter', function () {
     // The code you place here will be executed every time your command is executed
     const editor = vscode.window.activeTextEditor;
     // Display a message box to the user
     const selection = editor.document.getText(editor.selection)
 
-    let num;
+    let n;
     if (!selection) {
       vscode.window.showInformationMessage(`No selection made`);
       return
@@ -31,17 +31,20 @@ function activate(context) {
 
 
     if (selection.endsWith('px')) {
-      num = Number(selection.slice(0, -2))
-      if (typeof num === "number")
-        if (num % 8 === 0) {
-          num = num / 8
-          vscode.window.showInformationMessage(`s(${num}) is the conversion`);
+      n = Number(selection.slice(0, -2))
+      if (typeof n === "number")
+        if (n % 8 === 0) {
+          n = `s(${n / 8})`
+
         } else {
-          num = 16/8
-          vscode.window.showInformationMessage(`${num}rem is the conversion`);
+          let num = n / 16
+          n = `${+num.toFixed(3)}rem`
         }
+      editor.edit(edit => {
+        edit.replace(editor.selection, n)
+      })
     } else {
-      vscode.window.showInformationMessage(`${num} is not a number`);
+      vscode.window.showInformationMessage(`${selection} is not a a valid selection`);
     }
 
   });
