@@ -21,33 +21,38 @@ function activate(context) {
     // The code you place here will be executed every time your command is executed
     const editor = vscode.window.activeTextEditor;
     // Display a message box to the user
-    const selection = editor.document.getText(editor.selection)
-
+    // const selection = editor.document.getText().match('[0-9]+px')
+    const position = editor.document.getWordRangeAtPosition(editor.selection.active)
+    const start = position.start
+    const end = position.end                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+    const selection = new vscode.Selection(start.line, start.character, end.line,  end.character)
+    const selectTmp = editor.document.getText(selection)
+    // const selection = editor.document.getText(range)
     let n;
     if (!selection) {
-      vscode.window.showInformationMessage(`No selection made`);
-      return
-    }
-
-
-    if (selection.endsWith('px')) {
-      n = Number(selection.slice(0, -2))
-      if (typeof n === "number")
-        if (n % 8 === 0) {
-          n = `s(${n / 8})`
-
-        } else {
-          let num = n / 16
-          n = `${+num.toFixed(3)}rem`
-        }
-      editor.edit(edit => {
-        edit.replace(editor.selection, n)
-      })
+      vscode.window.showInformationMessage(`Not a a valid selection`);
     } else {
-      vscode.window.showInformationMessage(`${selection} is not a a valid selection`);
+      n = Number(selectTmp.slice(0, -2))
+      if (typeof n === "number")
+      if (n % 8 === 0) {
+        n = `s(${n / 8})`
+        
+      } else {
+        let num = n / 16
+        n = `${+num.toFixed(3)}rem`
+      }
+      editor.edit(edit => {
+        edit.replace(selection, n)
+      })
     }
+
+
 
   });
+
+  // const findRange = () => {
+
+  // }
 
   context.subscriptions.push(disposable);
 }
