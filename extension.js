@@ -24,8 +24,8 @@ function activate(context) {
     // const selection = editor.document.getText().match('[0-9]+px')
     const position = editor.document.getWordRangeAtPosition(editor.selection.active)
     const start = position.start
-    const end = position.end                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-    const selection = new vscode.Selection(start.line, start.character, end.line,  end.character)
+    const end = position.end
+    const selection = new vscode.Selection(start.line, start.character, end.line, end.character)
     const selectTmp = editor.document.getText(selection)
     // const selection = editor.document.getText(range)
     let n;
@@ -34,25 +34,19 @@ function activate(context) {
     } else {
       n = Number(selectTmp.slice(0, -2))
       if (typeof n === "number")
-      if (n % 8 === 0) {
-        n = `s(${n / 8})`
-        
-      } else {
-        let num = n / 16
-        n = `${+num.toFixed(3)}rem`
-      }
+        if (n % 8 === 0) {
+          n = `s(${n / 8})`
+
+        } else {
+          let num = n / 16
+          n = `${+num.toFixed(3)}rem`
+        }
       editor.edit(edit => {
         edit.replace(selection, n)
       })
     }
 
-
-
   });
-
-  // const findRange = () => {
-
-  // }
 
   context.subscriptions.push(disposable);
 }
