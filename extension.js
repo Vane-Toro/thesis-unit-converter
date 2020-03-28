@@ -17,7 +17,7 @@ function activate(context) {
   // The command has been defined in the package.json file
   // Now provide the implementation of the command with  registerCommand
   // The commandId parameter must match the command field in package.json
-  let disposable = vscode.commands.registerCommand('extension.thesisUnitConverter', function () {
+  let disposable = vscode.commands.registerCommand('extension.pxToThesisUnit', function () {
     // The code you place here will be executed every time your command is executed
     const editor = vscode.window.activeTextEditor;
     // Display a message box to the user
@@ -41,6 +41,31 @@ function activate(context) {
           let num = n / 16
           n = `${+num.toFixed(3)}rem`
         }
+      editor.edit(edit => {
+        edit.replace(selection, n)
+      })
+    }
+
+  });
+  disposable = vscode.commands.registerCommand('extension.pxToRem', function () {
+    // The code you place here will be executed every time your command is executed
+    const editor = vscode.window.activeTextEditor;
+    // Display a message box to the user
+    // const selection = editor.document.getText().match('[0-9]+px')
+    const position = editor.document.getWordRangeAtPosition(editor.selection.active)
+    const start = position.start
+    const end = position.end
+    const selection = new vscode.Selection(start.line, start.character, end.line, end.character)
+    const selectTmp = editor.document.getText(selection)
+    // const selection = editor.document.getText(range)
+    let n;
+    if (!selection) {
+      vscode.window.showInformationMessage(`Not a a valid selection`);
+    } else {
+      n = Number(selectTmp.slice(0, -2))
+
+      let num = n / 16
+      n = `${+num.toFixed(3)}rem`
       editor.edit(edit => {
         edit.replace(selection, n)
       })
