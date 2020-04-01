@@ -33,7 +33,7 @@ function activate(context) {
       selection = new vscode.Selection(start.line, start.character, end.line, end.character)
       selectTmp = editor.document.getText(selection)
       if(!selectTmp.includes('px')){
-        vscode.window.showInformationMessage(`${selection} is not a a valid selection` );
+        vscode.window.showInformationMessage(`${selectTmp} is not a a valid selection` );
         return
       }
       
@@ -58,17 +58,20 @@ function activate(context) {
   disposable = vscode.commands.registerCommand('extension.pxToRem', () => {
     // The code you place here will be executed every time your command is executed
     const editor = vscode.window.activeTextEditor;
-    const regex = /^-?\d*px/
-    const position = editor.document.getWordRangeAtPosition(editor.selection.active, regex)
+    const position = editor.document.getWordRangeAtPosition(editor.selection.active)
 
     if (!position) {
-      vscode.window.showInformationMessage(`Not a a valid selection`);
+      vscode.window.showInformationMessage(`Selection must not be empty`);
     } else {
       const start = position.start
       const end = position.end
       const selection = new vscode.Selection(start.line, start.character, end.line, end.character)
       const selectTmp = editor.document.getText(selection)
       let n;
+      if(!selectTmp.includes('px')){
+        vscode.window.showInformationMessage(`${selectTmp} is not a a valid selection` );
+        return
+      }
       n = Number(selectTmp.slice(0, -2))
 
       let num = n / 16
