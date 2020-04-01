@@ -20,21 +20,24 @@ function activate(context) {
   let disposable = vscode.commands.registerCommand('extension.pxToThesisUnit', () => {
     // The code you place here will be executed every time your command is executed
     const editor = vscode.window.activeTextEditor;
-    const regex = /^-?\d*px/
-    const position = editor.document.getWordRangeAtPosition(editor.selection.active, regex)
+
+    const position = editor.document.getWordRangeAtPosition(editor.selection.active)
     let selection;
     let selectTmp;
-    if (!position) {
-      vscode.window.showInformationMessage(`Not a a valid selection`);
+    if (!position ) {
+      vscode.window.showInformationMessage(`Selection must not be empty` );
       return
     } else {
       const start = position.start
       const end = position.end
       selection = new vscode.Selection(start.line, start.character, end.line, end.character)
       selectTmp = editor.document.getText(selection)
-
+      if(!selectTmp.includes('px')){
+        vscode.window.showInformationMessage(`${selection} is not a a valid selection` );
+        return
+      }
+      
       let n;
-
       n = Number(selectTmp.slice(0, -2))
       if (typeof n === "number") {
         if (n % 8 === 0) {
