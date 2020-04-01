@@ -2,7 +2,7 @@
 	"name": "thesis-unit-converter",
 	"displayName": "thesis-unit-converter",
 	"description": "Convert px to thesis units or rem",
-	"version": "0.0.2",
+	"version": "0.1.0",
 	"publisher": "v-toro",
 	"engines": {
 		"vscode": "^1.43.0"
@@ -22,6 +22,10 @@
 		"commands": [
 			{
 				"command": "extension.pxToThesisUnit",
+				"title": "thesis converter"
+			},
+			{
+				"command": "extension.pxToRem",
 				"title": "thesis converter"
 			}
 		],
